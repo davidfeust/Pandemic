@@ -1,0 +1,111 @@
+//
+// Created by david on 22/04/2021.
+//
+
+#include "Player.hpp"
+
+using namespace pandemic;
+
+Player::Player(Board &board, City city) : curr_board(board), curr_city(city) {}
+
+Player &Player::take_card(pandemic::City city) {
+    cards[city] = true;
+    return *this;
+}
+
+void Player::build() {
+    if (cards[curr_city]) {
+        cards[curr_city] = false;
+        curr_board.getCities()[curr_city].get_stations() = true;
+    }
+}
+
+Player &Player::drive(City city) {
+    if (!curr_board.is_neighbors(curr_city, city)) {
+        throw std::runtime_error{
+                enum_str[city] + " and " + enum_str[curr_city] + " are not neighboring cities. Can not drive."};
+    }
+    curr_city = city;
+    return *this;
+}
+
+Player &Player::fly_direct(City city) {
+    if (cards[city]) {
+        cards[city] = false;
+        curr_city = city;
+    }
+    return *this;
+}
+
+Player &Player::treat(City city) {
+    if (city != curr_city) {
+        throw std::runtime_error{
+                "The current city is " + enum_str[curr_city] + " not " + enum_str[city] + ". Can not treat."};
+    }
+    if (curr_board[city] == 0) {
+        throw std::runtime_error{
+                "There is no pollution in the current city. Can not treat."};
+    }
+    if (curr_board.is_cure(curr_board.getCities()[city].get_color())) {
+        curr_board[city] = 0;
+    } else {
+        curr_board[curr_city]--;
+    }
+    return *this;
+}
+
+Player &Player::fly_charter(City city) {
+    if (cards[curr_city]) {
+        cards[curr_city] = false;
+        curr_city = city;
+    }
+    return *this;
+}
+
+void Player::fly_shuttle(City city) {
+    if (curr_board.getCities()[curr_city].get_stations()
+        && curr_board.getCities()[city].get_stations()) {
+        curr_city = city;
+    }
+}
+
+void Player::discover_cure(pandemic::Color color) {
+    if (curr_board.is_cure(color)) {
+        return;
+    }
+    if (!curr_board.getCities()[curr_city].get_stations()) {
+        throw std::runtime_error{"There is no research station in the current city. Can not discover_cure."};
+    }
+    int n = 0;
+    for (auto&[k, v] : cards) {
+        if (curr_board.getCities()[k].get_color() == color && v) {
+//        if (curr_board.get_color(k) == color && v) {
+            n++;
+        }
+    }
+    if (n < 5) {
+        throw std::runtime_error{"There are not enough cards of the required color. Can not discover_cure."};
+    }
+    int i = 0;
+    for (auto[k, v] : cards) {
+        if (curr_board.get_color(k) == color && v) {
+            i++;
+            cards[k] = false;
+        }
+        if (i == 5) {
+            break;
+        }
+    }
+    curr_board.cure(color);
+}
+
+
+//std::string Player::role() const{
+////    return std::type_info::name();
+////    metaObject()->className();
+//    return typeid(*this).name();
+//
+////    return ;
+//}
+
+
