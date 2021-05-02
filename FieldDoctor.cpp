@@ -15,7 +15,7 @@ std::string FieldDoctor::role() const {
 }
 
 Player &FieldDoctor::treat(pandemic::City city) {
-    if (city != curr_city || !curr_board.is_neighbors(curr_city, city)) {
+    if (city != curr_city || !Board::is_neighbors(curr_city, city)) {
         throw std::runtime_error{
                 "The current city is " + enum_str[curr_city] + " not " + enum_str[city] + ". Can not treat."};
     }

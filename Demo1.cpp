@@ -1,6 +1,6 @@
 /**
  * Demo program for Pandemic exercise - OperationsExpert role
- * 
+ *
  * Author: Erel Segal-Halevi
  * Since : 2021-04
  */
@@ -98,12 +98,12 @@ int main() {
 	player.build();     // legal action: build a research station in LosAngeles.
 		// NOTE: you do not have the LosAngeles card, so for other roles this would throw an exception.
 		//       But for the OperationsExpert it is legal, since he may build a research station without a card.
-		
+
 
 
 	/* fly_shuttle action */
 
-	player.fly_shuttle(City::Atlanta); // legal action: you fly from one research station to another. 
+	player.fly_shuttle(City::Atlanta); // legal action: you fly from one research station to another.
 	player.fly_shuttle(City::LosAngeles); // legal action: you fly from one research station to another.
 	try {
 		player.fly_shuttle(City::Chicago); // illegal action: there is no research station in Chicago.
@@ -133,7 +133,7 @@ int main() {
 
 	/* treat action after discovering a cure */
 
-	player.drive(City::MexicoCity); 
+	player.drive(City::MexicoCity);
 	cout << board[City::MexicoCity] << endl; // 3
 	player.treat(City::MexicoCity);   // you now remove ALL disease cubes from MexicoCity, since there is a yelllow cure.
 	cout << board[City::MexicoCity] << endl; // 0

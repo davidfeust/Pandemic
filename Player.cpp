@@ -21,7 +21,7 @@ void Player::build() {
 }
 
 Player &Player::drive(City city) {
-    if (!curr_board.is_neighbors(curr_city, city)) {
+    if (!Board::is_neighbors(curr_city, city)) {
         throw std::runtime_error{
                 enum_str[city] + " and " + enum_str[curr_city] + " are not neighboring cities. Can not drive."};
     }
@@ -33,6 +33,8 @@ Player &Player::fly_direct(City city) {
     if (cards[city]) {
         cards[city] = false;
         curr_city = city;
+    } else {
+        throw std::runtime_error{"The player does not have " + enum_str[city] + " card. Can not fly_direct."};
     }
     return *this;
 }
@@ -79,11 +81,11 @@ void Player::discover_cure(pandemic::Color color) {
     int n = 0;
     for (auto&[k, v] : cards) {
         if (curr_board.getCities()[k].get_color() == color && v) {
-//        if (curr_board.get_color(k) == color && v) {
             n++;
         }
     }
-    if (n < 5) {
+    const int cards_to_cure = 5;
+    if (n < cards_to_cure) {
         throw std::runtime_error{"There are not enough cards of the required color. Can not discover_cure."};
     }
     int i = 0;
@@ -92,11 +94,11 @@ void Player::discover_cure(pandemic::Color color) {
             i++;
             cards[k] = false;
         }
-        if (i == 5) {
+        if (i == cards_to_cure) {
             break;
         }
     }
-    curr_board.cure(color);
+    curr_board.is_cure(color) = true;
 }
 
 

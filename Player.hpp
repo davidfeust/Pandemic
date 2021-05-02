@@ -6,6 +6,7 @@
 
 #include <list>
 #include <string>
+#include <set>
 #include "Board.hpp"
 #include "City.hpp"
 #include "Color.hpp"
@@ -15,44 +16,46 @@ namespace pandemic {
     class Player {
     protected:
         std::map<City, bool> cards;
+//        std::set<City> cards;
         City curr_city;
         Board &curr_board;
+
     public:
         Player(pandemic::Board &board, pandemic::City city);
 
-        virtual /**
-         * Move the player from the current city to the giving city, only if city is connected city.
-         * @throw exception if the giving city is not connected to the current city.
-         * @param city
-         * @return this player reference
-         */
-        Player &drive(pandemic::City city);
+        /**
+        * Move the player from the current city to the giving city, only if city is connected city.
+        * @throw exception if the giving city is not connected to the current city.
+        * @param city
+        * @return this player reference
+        */
+        virtual Player &drive(pandemic::City city);
 
-        virtual /**
-         * Move from the current city to the giving city, only if the player have card of this city,
-         * and the player discard this card by flying there.
-         * @throw exception if the player doesn't have the appropriate card.
-         * @param city
-         * @return this player reference
-         */
-        Player &fly_direct(pandemic::City city);
+        /**
+        * Move from the current city to the giving city, only if the player have card of this city,
+        * and the player discard this card by flying there.
+        * @throw exception if the player doesn't have the appropriate card.
+        * @param city
+        * @return this player reference
+        */
+        virtual Player &fly_direct(pandemic::City city);
 
-        virtual /**
-         * Move from the current city to the giving city, only if the player have the card of the current city,
-         * and the player discard this card by flying there.
-         * @throw exception if the player doesn't have the card of the current city.
-         * @param city
-         * @return this player reference
-         */
-        Player &fly_charter(pandemic::City city);
+        /**
+        * Move from the current city to the giving city, only if the player have the card of the current city,
+        * and the player discard this card by flying there.
+        * @throw exception if the player doesn't have the card of the current city.
+        * @param city
+        * @return this player reference
+        */
+        virtual Player &fly_charter(pandemic::City city);
 
-        virtual /**
-         * Move from the current city to the giving city,
-         * only if in the current city there is a research station and also in the given city.
-         * @throw exception if in the current city or in the giving city there is no research station.
-         * @param city
-         */
-        void fly_shuttle(pandemic::City city);
+        /**
+        * Move from the current city to the giving city,
+        * only if in the current city there is a research station and also in the given city.
+        * @throw exception if in the current city or in the giving city there is no research station.
+        * @param city
+        */
+        virtual void fly_shuttle(pandemic::City city);
 
         /**
          * Build a research station in the current city.
@@ -63,24 +66,24 @@ namespace pandemic {
          */
         virtual void build();
 
-        virtual /**
-         * Discovering a cure for a disease of a certain color.
-         * To do this, you must be in a city that has a research station,
-         * and discard 5 colored cards of the disease.
-         * @throw exception if the player doesn't have enough cards of the required color.
-         */
-        void discover_cure(pandemic::Color color);
+        /**
+        * Discovering a cure for a disease of a certain color.
+        * To do this, you must be in a city that has a research station,
+        * and discard 5 colored cards of the disease.
+        * @throw exception if the player doesn't have enough cards of the required color.
+        */
+        virtual void discover_cure(pandemic::Color color);
 
-        virtual /**
-         * Reduction of one disease cube from the current city.
-         * If a cure for the disease has already been discovered in the city's color,
-         * then the "treat" action removes all the disease cubes from the current city.
-         * If there is no pollution at all in the city, then the action will throw an exception.
-         * @throw exception if there is no pollution at all in the city.
-         * @param city
-         * @return this player reference
-         */
-        Player &treat(pandemic::City city);
+        /**
+        * Reduction of one disease cube from the current city.
+        * If a cure for the disease has already been discovered in the city's color,
+        * then the "treat" action removes all the disease cubes from the current city.
+        * If there is no pollution at all in the city, then the action will throw an exception.
+        * @throw exception if there is no pollution at all in the city.
+        * @param city
+        * @return this player reference
+        */
+        virtual Player &treat(pandemic::City city);
 
         /**
          * Returns the role of the player.

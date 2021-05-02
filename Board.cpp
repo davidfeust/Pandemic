@@ -9,9 +9,7 @@ using namespace pandemic;
 using namespace std;
 
 Board::Board() : cure_black(false), cure_blue(false), cure_red(false), cure_yellow(false) {
-//    init_graph();
     init_cities();
-//    init_cures();
 }
 
 int &Board::operator[](pandemic::City city) {
@@ -54,10 +52,6 @@ bool Board::is_neighbors(City city1, City city2) {
     }
     return false;
 }
-
-//bool &Board::get_station(City city) {
-//    return cities[city].get_stations();
-//}
 
 void Board::init_cities() {
     cities = {
@@ -113,58 +107,6 @@ void Board::init_cities() {
 
 }
 
-//void Board::init_graph() {
-//    graph[City::Algiers] = {City::Madrid, City::Paris, City::Istanbul, City::Cairo};
-//    graph[City::Atlanta] = {City::Chicago, City::Miami, City::Washington};
-//    graph[City::Baghdad] = {City::Tehran, City::Istanbul, City::Cairo, City::Riyadh, City::Karachi};
-//    graph[City::Bangkok] = {City::Kolkata, City::Chennai, City::Jakarta, City::HoChiMinhCity, City::HongKong};
-//    graph[City::Beijing] = {City::Shanghai, City::Seoul};
-//    graph[City::Bogota] = {City::MexicoCity, City::Lima, City::Miami, City::SaoPaulo, City::BuenosAires};
-//    graph[City::BuenosAires] = {City::Bogota, City::SaoPaulo};
-//    graph[City::Cairo] = {City::Algiers, City::Istanbul, City::Baghdad, City::Khartoum, City::Riyadh};
-//    graph[City::Chennai] = {City::Mumbai, City::Delhi, City::Kolkata, City::Bangkok, City::Jakarta};
-//    graph[City::Chicago] = {City::SanFrancisco, City::LosAngeles, City::MexicoCity, City::Atlanta, City::Montreal};
-//    graph[City::Delhi] = {City::Tehran, City::Karachi, City::Mumbai, City::Chennai, City::Kolkata};
-//    graph[City::Essen] = {City::London, City::Paris, City::Milan, City::StPetersburg};
-//    graph[City::HoChiMinhCity] = {City::Jakarta, City::Bangkok, City::HongKong, City::Manila};
-//    graph[City::HongKong] = {City::Bangkok, City::Kolkata, City::HoChiMinhCity, City::Shanghai, City::Manila,
-//                             City::Taipei};
-//    graph[City::Istanbul] = {City::Milan, City::Algiers, City::StPetersburg, City::Cairo, City::Baghdad, City::Moscow};
-//    graph[City::Jakarta] = {City::Chennai, City::Bangkok, City::HoChiMinhCity, City::Sydney};
-//    graph[City::Johannesburg] = {City::Kinshasa, City::Khartoum};
-//    graph[City::Karachi] = {City::Tehran, City::Baghdad, City::Riyadh, City::Mumbai, City::Delhi};
-//    graph[City::Khartoum] = {City::Cairo, City::Lagos, City::Kinshasa, City::Johannesburg};
-//    graph[City::Kinshasa] = {City::Lagos, City::Khartoum, City::Johannesburg};
-//    graph[City::Kolkata] = {City::Delhi, City::Chennai, City::Bangkok, City::HongKong};
-//    graph[City::Lagos] = {City::SaoPaulo, City::Khartoum, City::Kinshasa};
-//    graph[City::Lima] = {City::MexicoCity, City::Bogota, City::Santiago};
-//    graph[City::London] = {City::NewYork, City::Madrid, City::Essen, City::Paris};
-//    graph[City::LosAngeles] = {City::SanFrancisco, City::Chicago, City::MexicoCity, City::Sydney};
-//    graph[City::Madrid] = {City::London, City::NewYork, City::Paris, City::SaoPaulo, City::Algiers};
-//    graph[City::Manila] = {City::Taipei, City::SanFrancisco, City::HoChiMinhCity, City::Sydney};
-//    graph[City::MexicoCity] = {City::LosAngeles, City::Chicago, City::Miami, City::Lima, City::Bogota};
-//    graph[City::Miami] = {City::Atlanta, City::MexicoCity, City::Washington, City::Bogota};
-//    graph[City::Milan] = {City::Essen, City::Paris, City::Istanbul};
-//    graph[City::Montreal] = {City::Chicago, City::Washington, City::NewYork};
-//    graph[City::Moscow] = {City::StPetersburg, City::Istanbul, City::Tehran};
-//    graph[City::Mumbai] = {City::Karachi, City::Delhi, City::Chennai};
-//    graph[City::NewYork] = {City::Montreal, City::Washington, City::London, City::Madrid};
-//    graph[City::Osaka] = {City::Taipei, City::Tokyo};
-//    graph[City::Paris] = {City::Algiers, City::Essen, City::Madrid, City::Milan, City::London};
-//    graph[City::Riyadh] = {City::Baghdad, City::Cairo, City::Karachi};
-//    graph[City::SanFrancisco] = {City::LosAngeles, City::Chicago, City::Tokyo, City::Manila};
-//    graph[City::Santiago] = {City::Lima};
-//    graph[City::SaoPaulo] = {City::Bogota, City::BuenosAires, City::Lagos, City::Madrid};
-//    graph[City::Seoul] = {City::Beijing, City::Shanghai, City::Tokyo};
-//    graph[City::Shanghai] = {City::Beijing, City::HongKong, City::Taipei, City::Seoul, City::Tokyo};
-//    graph[City::StPetersburg] = {City::Essen, City::Istanbul, City::Moscow};
-//    graph[City::Sydney] = {City::Jakarta, City::Manila, City::LosAngeles};
-//    graph[City::Taipei] = {City::Shanghai, City::HongKong, City::Osaka, City::Manila};
-//    graph[City::Tehran] = {City::Baghdad, City::Moscow, City::Karachi, City::Delhi};
-//    graph[City::Tokyo] = {City::Seoul, City::Shanghai, City::Osaka, City::SanFrancisco};
-//    graph[City::Washington] = {City::Atlanta, City::NewYork, City::Montreal, City::Miami};
-//}
-
 Color &Board::get_color(City city) {
     return cities[city].get_color();
 }
@@ -188,22 +130,22 @@ map<City, CityData> &Board::getCities() {
 }
 
 
-void Board::cure(Color color) {
-    switch (color) {
-        case Color::Yellow:
-            cure_yellow = true;
-            break;
-        case Color::Red:
-            cure_red = true;
-            break;
-        case Color::Blue:
-            cure_blue = true;
-            break;
-        case Color::Black:
-            cure_black = true;
-            break;
-    }
-}
+//void Board::cure(Color color) {
+//    switch (color) {
+//        case Color::Yellow:
+//            cure_yellow = true;
+//            break;
+//        case Color::Red:
+//            cure_red = true;
+//            break;
+//        case Color::Blue:
+//            cure_blue = true;
+//            break;
+//        case Color::Black:
+//            cure_black = true;
+//            break;
+//    }
+//}
 
 std::map<City, std::vector<City>> Board::graph = {
         {City::Algiers,       {City::Madrid,       City::Paris,        City::Istanbul,      City::Cairo}},

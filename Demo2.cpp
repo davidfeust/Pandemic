@@ -1,6 +1,6 @@
 /**
  * Demo program for Pandemic exercise - compares the different roles.
- * 
+ *
  * Author: Erel Segal-Halevi
  * Since : 2021-04
  */
@@ -24,11 +24,10 @@ using namespace pandemic;
 #include <vector>
 #include <iostream>
 #include <stdexcept>
-
 using namespace std;
 
 // Give some four red cards to the given player, to initialize an example.
-void take_four_red_cards(Player &player) {
+void take_four_red_cards(Player& player) {
     player.take_card(City::Sydney)
             .take_card(City::HoChiMinhCity)
             .take_card(City::HongKong)
@@ -36,17 +35,17 @@ void take_four_red_cards(Player &player) {
 }
 
 // Checks if the given player can discover a cure.
-bool can_discover_cure(Player &player, Color color) {
+bool can_discover_cure(Player& player, Color color) {
     try {
         player.discover_cure(color);
         return true;
-    } catch (const exception &ex) {
+    } catch (const exception& ex) {
         return false;
     }
 }
 
 // Check the conditions in which the given player can discover a cure.
-void check_cure_discovery(Player &player) {
+void check_cure_discovery(Player& player) {
     cout << "Checking a " << player.role() << ": " << endl;
 
     take_four_red_cards(player);
@@ -58,8 +57,7 @@ void check_cure_discovery(Player &player) {
 
     take_four_red_cards(player);
     player.take_card(City::Cairo);
-    cout << "  Four red cards and one black card, in a research station: " << can_discover_cure(player, Color::Red)
-         << endl;
+    cout << "  Four red cards and one black card, in a research station: " << can_discover_cure(player, Color::Red) << endl;
 
     take_four_red_cards(player);
     player.take_card(City::Beijing);
@@ -75,86 +73,41 @@ void check_cure_discovery(Player &player) {
 
 int main() {
     cout << boolalpha;
-//	Board board;
-//
-//	OperationsExpert builder {board, City::Atlanta};
-//	builder.build();  // Build a research station in Atlanta, to prepare the board for the tests.
+    Board board;
 
+    OperationsExpert builder {board, City::Atlanta};
+    builder.build();  // Build a research station in Atlanta, to prepare the board for the tests.
 
     {
-        Board board;
-
-        OperationsExpert builder{board, City::Atlanta};
-        builder.build();  // Build a research station in Atlanta, to prepare the board for the tests.
-
         FieldDoctor player(board, City::Washington);
         check_cure_discovery(player);  // should print: false false false false true
     }
     {
-        Board board;
-
-        OperationsExpert builder{board, City::Atlanta};
-        builder.build();  // Build a research station in Atlanta, to prepare the board for the tests.
-
         Virologist player(board, City::Washington);
         check_cure_discovery(player);  // should print: false false false false true
     }
     {
-        Board board;
-
-        OperationsExpert builder{board, City::Atlanta};
-        builder.build();  // Build a research station in Atlanta, to prepare the board for the tests.
-
         OperationsExpert player(board, City::Washington);
         check_cure_discovery(player);  // should print: false false false false true
     }
     {
-        Board board;
-
-        OperationsExpert builder{board, City::Atlanta};
-        builder.build();  // Build a research station in Atlanta, to prepare the board for the tests.
-
         Medic player(board, City::Washington);
         check_cure_discovery(player);  // should print: false false false false true
     }
     {
-        Board board;
-
-        OperationsExpert builder{board, City::Atlanta};
-        builder.build();  // Build a research station in Atlanta, to prepare the board for the tests.
-
         Dispatcher player(board, City::Washington);
         check_cure_discovery(player);  // should print: false false false false true
     }
     {
-        Board board;
-
-        OperationsExpert builder{board, City::Atlanta};
-        builder.build();  // Build a research station in Atlanta, to prepare the board for the tests.
-
         GeneSplicer player(board, City::Washington);
-        check_cure_discovery(
-                player);  // should print: false false ***true*** false true [can find a cure with 4 red and 1 black card]
+        check_cure_discovery(player);  // should print: false false ***true*** false true [can find a cure with 4 red and 1 black card]
     }
     {
-        Board board;
-
-        OperationsExpert builder{board, City::Atlanta};
-        builder.build();  // Build a research station in Atlanta, to prepare the board for the tests.
-
         Researcher player(board, City::Washington);
-        check_cure_discovery(
-                player);  // should print: false false false ***true*** true [can find a cure without a research station]
+        check_cure_discovery(player);  // should print: false false false ***true*** true [can find a cure without a research station]
     }
     {
-        Board board;
-
-        OperationsExpert builder{board, City::Atlanta};
-        builder.build();  // Build a research station in Atlanta, to prepare the board for the tests.
-
         Scientist player(board, City::Washington, 4);
-        check_cure_discovery(
-                player);  // should print: false ***true*** ***true*** false true  [can find a cure with only 4 red cards]
+        check_cure_discovery(player);  // should print: false ***true*** ***true*** false true  [can find a cure with only 4 red cards]
     }
 }
-

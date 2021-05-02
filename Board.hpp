@@ -33,16 +33,14 @@ namespace pandemic {
 
         bool is_clean();
 
-        bool is_neighbors(City city1, City city2);
+        static bool is_neighbors(City city1, City city2);
 
         std::map<City, CityData> &getCities();
-
-//        bool& get_station(City city);
 
         Color &get_color(City city);
 
         bool &is_cure(Color color);
 
-        void cure(Color color);
+//        void cure(Color color);
     };
 }

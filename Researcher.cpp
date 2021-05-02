@@ -24,7 +24,8 @@ void Researcher::discover_cure(pandemic::Color color) {
             n++;
         }
     }
-    if (n < 5) {
+    const int cards_to_cure = 5;
+    if (n < cards_to_cure) {
         throw std::runtime_error{"There are not enough cards of the required color. Can not discover_cure."};
     }
     int i = 0;
@@ -33,7 +34,7 @@ void Researcher::discover_cure(pandemic::Color color) {
             i++;
             cards[k] = false;
         }
-        if (i == 5) {
+        if (i == cards_to_cure) {
             break;
         }
     }
