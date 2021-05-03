@@ -4,8 +4,6 @@
 
 #include "Scientist.hpp"
 
-#include <utility>
-
 using namespace pandemic;
 
 
@@ -24,9 +22,7 @@ Player &Scientist::discover_cure(pandemic::Color color) {
     }
     int n = 0;
     for (auto &v : cards) {
-//    for (auto[k, v] : cards) {
         if (curr_board.get_color(v) == color) {
-//        if (curr_board.get_color(k) == color && v) {
             n++;
         }
     }
@@ -34,17 +30,6 @@ Player &Scientist::discover_cure(pandemic::Color color) {
         throw std::runtime_error{"There are not enough cards of the required color. Can not discover_cure."};
     }
     int i = 0;
-//    for (auto &v: cards) {
-////    for (auto[k, v] : cards) {
-//        if (curr_board.get_color(v) == color) {
-////        if (curr_board.get_color(k) == color) {
-//            i++;
-//            cards.erase(v);
-////            cards[k] = false;
-//        }
-//        if (i == num) {
-//            break;
-//        }
     for (auto it = cards.begin(); it != cards.end();) {
         if (curr_board.get_color(*it) == color) {
             i++;
