@@ -21,7 +21,7 @@ Player &Scientist::discover_cure(pandemic::Color color) {
         throw std::runtime_error{"There is no research station in the current city. Can not discover_cure."};
     }
     int n = 0;
-    for (auto &v : cards) {
+    for (const auto &v : cards) {
         if (curr_board.get_color(v) == color) {
             n++;
         }

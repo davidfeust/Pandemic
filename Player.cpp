@@ -89,9 +89,8 @@ Player &Player::fly_shuttle(City city) {
     if (!station_oth) {
         throw std::runtime_error{
                 "There is no research station in " + enum_str[curr_city] + ". Can not fly_shuttle."};
-    } else {
-        curr_city = city;
     }
+    curr_city = city;
     return *this;
 }
 
@@ -103,7 +102,7 @@ Player &Player::discover_cure(pandemic::Color color) {
         throw std::runtime_error{"There is no research station in the current city. Can not discover_cure."};
     }
     int n = 0;
-    for (auto &i : cards) {
+    for (const auto &i : cards) {
         if (curr_board.get_color(i) == color) {
             n++;
         }
@@ -127,5 +126,9 @@ Player &Player::discover_cure(pandemic::Color color) {
     }
     curr_board.is_cure(color) = true;
     return *this;
+}
+
+void Player::remove_cards() {
+    cards.clear();
 }
 

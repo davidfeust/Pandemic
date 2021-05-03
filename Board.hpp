@@ -41,5 +41,7 @@ namespace pandemic {
         void remove_cures();
 
         void remove_stations();
+
+        bool &is_cure(City city);
     };
 }

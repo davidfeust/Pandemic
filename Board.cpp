@@ -111,6 +111,10 @@ Color &Board::get_color(City city) {
     return cities[city].get_color();
 }
 
+bool &Board::is_cure(City city) {
+    return is_cure(cities[city].get_color());
+}
+
 bool &Board::is_cure(Color color) {
     switch (color) {
         case Color::Yellow:
@@ -188,7 +192,7 @@ void Board::remove_cures() {
 }
 
 void Board::remove_stations() {
-    for (auto &[k,v] : cities) {
+    for (auto &[k, v] : cities) {
         v.get_station() = false;
     }
 }

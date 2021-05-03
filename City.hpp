@@ -12,7 +12,6 @@ namespace pandemic {
         Beijing,
         Bogota,
         BuenosAires,
-//        BuenosAries,
         Cairo,
         Chennai,
         Chicago,
@@ -63,7 +62,6 @@ namespace pandemic {
             {City::Bangkok,       "Bangkok"},
             {City::Beijing,       "Beijing"},
             {City::Bogota,        "Bogota"},
-//            {City::BuenosAries,   "BuenosAries"},
             {City::BuenosAires,   "BuenosAires"},
             {City::Cairo,         "Cairo"},
             {City::Chennai,       "Chennai"},
@@ -107,5 +105,4 @@ namespace pandemic {
             {City::Tokyo,         "Tokyo"},
             {City::Washington,    "Washington"},
     };
-
 }

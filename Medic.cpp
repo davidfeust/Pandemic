@@ -28,7 +28,7 @@ Medic &Medic::treat(pandemic::City city) {
 }
 
 void Medic::arrival() {
-    if (curr_board.is_cure(curr_board.getCities()[curr_city].get_color())) {
+    if (curr_board.is_cure(curr_city)) {
         curr_board[curr_city] = 0;
     }
 }
@@ -45,7 +45,7 @@ Medic &Medic::fly_charter(pandemic::City city) {
     return *this;
 }
 
-Player & Medic::fly_shuttle(pandemic::City city) {
+Player &Medic::fly_shuttle(pandemic::City city) {
     arrival();
     Player::fly_shuttle(city);
     return *this;

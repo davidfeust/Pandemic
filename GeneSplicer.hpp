@@ -3,6 +3,7 @@
 //
 
 #pragma once
+
 #include "Player.hpp"
 
 namespace pandemic {
@@ -14,7 +15,6 @@ namespace pandemic {
 
         std::string role() const override;
 
-        Player & discover_cure(pandemic::Color color) override;
-
+        Player &discover_cure(pandemic::Color color) override;
     };
 }

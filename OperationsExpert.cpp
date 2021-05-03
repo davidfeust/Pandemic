@@ -8,7 +8,7 @@ using namespace pandemic;
 
 OperationsExpert::OperationsExpert(Board &board, City city) : Player(board, city) {}
 
-Player & OperationsExpert::build() {
+Player &OperationsExpert::build() {
     Player::curr_board.getCities()[Player::curr_city].get_station() = true;
     return *this;
 }

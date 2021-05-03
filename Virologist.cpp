@@ -19,10 +19,17 @@ Virologist &Virologist::treat(pandemic::City city) {
         throw std::runtime_error{
                 "There is no pollution in the current city. Can not treat."};
     }
-    if (curr_board.is_cure(curr_board.getCities()[city].get_color())) {
+    if (city != curr_city && !cards.contains(city)) {
+        throw std::runtime_error{
+                "The Virologist have not " + enum_str[city] + " card. Can not treat."};
+    }
+    if (curr_board.is_cure(city)) {
         curr_board[city] = 0;
     } else {
         curr_board[curr_city]--;
+    }
+    if (city != curr_city) {
+        cards.erase(city);
     }
     return *this;
 }

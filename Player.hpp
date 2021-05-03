@@ -15,7 +15,6 @@ namespace pandemic {
 
     class Player {
     protected:
-//        std::map<City, bool> cards;
         std::set<City> cards;
         City curr_city;
         Board &curr_board;
@@ -99,5 +98,8 @@ namespace pandemic {
          * @return this player reference
          */
         Player &take_card(pandemic::City city);
+
+        void remove_cards();
+
     };
 }
