@@ -42,7 +42,7 @@ Player &Player::drive(City city) {
 Player &Player::fly_direct(City city) {
 //    if (cards[city]) {
     if (cards.contains(city)) {
-        cards.insert(city);
+        cards.erase(city);
 //        cards[city] = false;
         curr_city = city;
     } else {
