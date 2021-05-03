@@ -9,14 +9,23 @@ using namespace pandemic;
 Player::Player(Board &board, City city) : curr_board(board), curr_city(city) {}
 
 Player &Player::take_card(pandemic::City city) {
-    cards[city] = true;
+//    cards[city] = true;
+    cards.insert(city);
     return *this;
 }
 
-Player & Player::build() {
-    if (cards[curr_city]) {
-        cards[curr_city] = false;
-        curr_board.getCities()[curr_city].get_stations() = true;
+Player &Player::build() {
+    if (curr_board.getCities()[curr_city].get_station()) {
+        return *this;
+    }
+//    if (cards[curr_city]) {
+    if (cards.contains(curr_city)) {
+        cards.erase(curr_city);
+//        cards[curr_city] = false;
+        curr_board.getCities()[curr_city].get_station() = true;
+    } else {
+        throw std::runtime_error{
+                "The player does not have " + enum_str[curr_city] + " card (current city). Can not build."};
     }
     return *this;
 }
@@ -31,8 +40,10 @@ Player &Player::drive(City city) {
 }
 
 Player &Player::fly_direct(City city) {
-    if (cards[city]) {
-        cards[city] = false;
+//    if (cards[city]) {
+    if (cards.contains(city)) {
+        cards.insert(city);
+//        cards[city] = false;
         curr_city = city;
     } else {
         throw std::runtime_error{"The player does not have " + enum_str[city] + " card. Can not fly_direct."};
@@ -58,8 +69,9 @@ Player &Player::treat(City city) {
 }
 
 Player &Player::fly_charter(City city) {
-    if (cards[curr_city]) {
-        cards[curr_city] = false;
+    if (cards.contains(curr_city)) {
+        cards.erase(curr_city);
+//        cards[curr_city] = false;
         curr_city = city;
     } else {
         throw std::runtime_error{
@@ -68,9 +80,9 @@ Player &Player::fly_charter(City city) {
     return *this;
 }
 
-Player & Player::fly_shuttle(City city) {
-    bool &station_curr = curr_board.getCities()[curr_city].get_stations();
-    bool &station_oth = curr_board.getCities()[city].get_stations();
+Player &Player::fly_shuttle(City city) {
+    bool &station_curr = curr_board.getCities()[curr_city].get_station();
+    bool &station_oth = curr_board.getCities()[city].get_station();
     if (!station_curr && !station_oth) {
         throw std::runtime_error{
                 "There is no research station in the current city (" + enum_str[curr_city] + ") and in " +
@@ -89,16 +101,18 @@ Player & Player::fly_shuttle(City city) {
     return *this;
 }
 
-Player & Player::discover_cure(pandemic::Color color) {
+Player &Player::discover_cure(pandemic::Color color) {
     if (curr_board.is_cure(color)) {
         return *this;
     }
-    if (!curr_board.getCities()[curr_city].get_stations()) {
+    if (!curr_board.getCities()[curr_city].get_station()) {
         throw std::runtime_error{"There is no research station in the current city. Can not discover_cure."};
     }
     int n = 0;
-    for (auto&[k, v] : cards) {
-        if (curr_board.getCities()[k].get_color() == color && v) {
+    for (auto &i : cards) {
+//    for (auto&[k, v] : cards) {
+        if (curr_board.get_color(i) == color) {
+//        if (curr_board.getCities()[k].get_color() == color && v) {
             n++;
         }
     }
@@ -107,10 +121,15 @@ Player & Player::discover_cure(pandemic::Color color) {
         throw std::runtime_error{"There are not enough cards of the required color. Can not discover_cure."};
     }
     int i = 0;
-    for (auto[k, v] : cards) {
-        if (curr_board.get_color(k) == color && v) {
+    for (auto it = cards.begin(); it != cards.end(); ) {
+
+//    for (auto[k, v] : cards) {
+        if (curr_board.get_color(*it) == color) {
             i++;
-            cards[k] = false;
+            cards.erase(it++);
+//            cards[k] = false;
+        } else {
+            ++it;
         }
         if (i == cards_to_cure) {
             break;

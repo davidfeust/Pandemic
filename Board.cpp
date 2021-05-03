@@ -19,9 +19,9 @@ int &Board::operator[](pandemic::City city) {
 std::ostream &pandemic::operator<<(std::ostream &os, pandemic::Board &board) {
     os << "Cities (Only with disease cubes or research station):" << endl;
     for (auto[k, v]: board.cities) {
-        if ((v.get_stations()) || v.get_disease_cubes() > 0) {
+        if ((v.get_station()) || v.get_disease_cubes() > 0) {
             os << "\t" << enum_str[k] << ": " << v.get_disease_cubes();
-            if (v.get_stations()) {
+            if (v.get_station()) {
                 os << "\t" << "A research station was discovered!";
             }
             os << endl;
@@ -129,24 +129,6 @@ map<City, CityData> &Board::getCities() {
     return cities;
 }
 
-
-//void Board::cure(Color color) {
-//    switch (color) {
-//        case Color::Yellow:
-//            cure_yellow = true;
-//            break;
-//        case Color::Red:
-//            cure_red = true;
-//            break;
-//        case Color::Blue:
-//            cure_blue = true;
-//            break;
-//        case Color::Black:
-//            cure_black = true;
-//            break;
-//    }
-//}
-
 std::map<City, std::vector<City>> Board::graph = {
         {City::Algiers,       {City::Madrid,       City::Paris,        City::Istanbul,      City::Cairo}},
         {City::Atlanta,       {City::Chicago,      City::Miami,        City::Washington}},
@@ -203,4 +185,10 @@ void Board::remove_cures() {
     cure_blue = false;
     cure_yellow = false;
     cure_red = false;
+}
+
+void Board::remove_stations() {
+    for (auto &[k,v] : cities) {
+        v.get_station() = false;
+    }
 }

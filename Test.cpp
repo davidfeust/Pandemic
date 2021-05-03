@@ -17,7 +17,9 @@
 using namespace pandemic;
 using namespace std;
 
-City random_city();
+City random_city(unsigned int seed = 1);
+
+void clear_board(Board &board);
 
 TEST_CASE ("test") {
     for (int i = 0; i < 25; ++i) {
@@ -85,9 +87,7 @@ TEST_CASE ("is_clean") {
         board[k] = (rand() % 50) + 1;
     }
             CHECK_EQ(board.is_clean(), false);
-    for (auto &[k, v] : enum_str) {
-        board[k] = 0;
-    }
+    clear_board(board);
             CHECK_EQ(board.is_clean(), true);
 }
 
@@ -164,16 +164,16 @@ TEST_CASE ("Drives") {
                     break;
                 }
                 player->take_card(start_city).fly_direct(start_city); // move to start_city
-                if (!board.getCities()[start_city].get_stations() || !board.getCities()[rand_city].get_stations()) {
+                if (!board.getCities()[start_city].get_station() || !board.getCities()[rand_city].get_station()) {
                             CHECK_THROWS(player->fly_shuttle(rand_city));
                 }
                 OperationsExpert ox{board, rand_city};
                 ox.build();
-                if (board.getCities()[start_city].get_stations() && board.getCities()[rand_city].get_stations()) {
+                if (board.getCities()[start_city].get_station() && board.getCities()[rand_city].get_station()) {
                             CHECK_NOTHROW(player->fly_shuttle(rand_city));
                 }
                 ox.take_card(rand_city).fly_direct(rand_city).build();
-                if (board.getCities()[start_city].get_stations() && board.getCities()[rand_city].get_stations()) {
+                if (board.getCities()[start_city].get_station() && board.getCities()[rand_city].get_station()) {
                             CHECK_NOTHROW(player->fly_shuttle(rand_city));
                 }
             }
@@ -181,7 +181,37 @@ TEST_CASE ("Drives") {
     }
 }
 
-City random_city() {
+//TEST_CASE ("Build") {
+//    Board board;
+//    City curr_city = random_city();
+//    array<Player *, 7> roles = {new Dispatcher{board, curr_city},
+//                                new Scientist{board, curr_city, 3}, new Researcher{board, curr_city},
+//                                new Medic{board, curr_city}, new Virologist{board, curr_city},
+//                                new GeneSplicer{board, curr_city}, new FieldDoctor{board, curr_city}};
+////OperationsExpert{board, curr_city}
+//    for (Player *player: roles) {
+//        clear_board(board);
+//        for (int i = 0; i < 20; ++i) {
+//            City rand_city ;//= random_city(time(NULL));
+//            cout << board << boolalpha << endl;
+//            while (!board.getCities()[rand_city].get_station()) {
+//                rand_city = random_city(time(nullptr));
+//                cout << enum_str[rand_city] << " " << board.getCities()[rand_city].get_station() << endl;
+//                if (!board.getCities()[rand_city].get_station()) break;
+//            }
+//            player->take_card(rand_city).fly_direct(rand_city); // move to rand_city
+//                    CHECK_THROWS(player->build());
+//                    CHECK_EQ(board.getCities()[rand_city].get_station(), false);
+//            player->take_card(rand_city);
+//                    CHECK_NOTHROW(player->build());
+//                    CHECK_EQ(board.getCities()[rand_city].get_station(), true);
+//
+//        }
+//    }
+//}
+
+City random_city(unsigned int seed) {
+    srand(seed);
     int ran = rand() % 48;
     int i = 0;
     for (auto &[k, v] : enum_str) {
@@ -192,4 +222,12 @@ City random_city() {
     }
     return City::Chicago;
 }
+
+void clear_board(Board &board) {
+    for (auto &[k, v] : board.getCities()) {
+        board[k] = 0;
+        v.get_station() = false;
+    }
+}
+
 

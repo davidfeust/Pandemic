@@ -14,12 +14,9 @@ namespace pandemic {
     class Board {
     private:
         std::map<City, CityData> cities;
-//        std::map<Color, bool> cures;
         static std::map<City, std::vector<City>> graph;
 
         bool cure_blue, cure_yellow, cure_black, cure_red;
-
-//        void init_graph();
 
         void init_cities();
 
@@ -41,7 +38,8 @@ namespace pandemic {
 
         bool &is_cure(Color color);
 
-//        void cure(Color color);
         void remove_cures();
+
+        void remove_stations();
     };
 }

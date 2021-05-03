@@ -19,8 +19,10 @@ Player & Researcher::discover_cure(pandemic::Color color) {
         return *this;
     }
     int n = 0;
-    for (auto[k, v] : cards) {
-        if (curr_board.get_color(k) == color && v) {
+    for (auto& v : cards) {
+//    for (auto[k, v] : cards) {
+//        if (curr_board.get_color(k) == color && v) {
+        if (curr_board.get_color(v) == color) {
             n++;
         }
     }
@@ -29,10 +31,23 @@ Player & Researcher::discover_cure(pandemic::Color color) {
         throw std::runtime_error{"There are not enough cards of the required color. Can not discover_cure."};
     }
     int i = 0;
-    for (auto[k, v] : cards) {
-        if (curr_board.get_color(k) == color) {
+//    for (auto &v : cards) {
+////    for (auto[k, v] : cards) {
+//        if (curr_board.get_color(v) == color) {
+//            i++;
+//            cards.erase(v);
+////            cards[k] = false;
+//        }
+//        if (i == cards_to_cure) {
+//            break;
+//        }
+//    }
+    for (auto it = cards.begin(); it != cards.end(); ) {
+        if (curr_board.get_color(*it) == color) {
             i++;
-            cards[k] = false;
+            cards.erase(it++);
+        } else {
+            ++it;
         }
         if (i == cards_to_cure) {
             break;

@@ -15,8 +15,8 @@ namespace pandemic {
 
     class Player {
     protected:
-        std::map<City, bool> cards;
-//        std::set<City> cards;
+//        std::map<City, bool> cards;
+        std::set<City> cards;
         City curr_city;
         Board &curr_board;
 

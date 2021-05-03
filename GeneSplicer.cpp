@@ -14,29 +14,38 @@ std::string GeneSplicer::role() const {
     return "GeneSplicer";
 }
 
-Player & GeneSplicer::discover_cure(pandemic::Color color) {
+Player &GeneSplicer::discover_cure(pandemic::Color color) {
     if (curr_board.is_cure(color)) {
         return *this;
     }
-    if (!curr_board.getCities()[curr_city].get_stations()) {
+    if (!curr_board.getCities()[curr_city].get_station()) {
         throw std::runtime_error{"There is no research station in the current city. Can not discover_cure."};
     }
-    int n = 0;
-    for (auto[k, v] : cards) {
-        if (v) {
-            n++;
-        }
-    }
+    uint n = cards.size();
+//    for (auto[k, v] : cards) {
+//        if (v) {
+//            n++;
+//        }
+//    }
     const int cards_to_cure = 5;
     if (n < cards_to_cure) {
         throw std::runtime_error{"There are not enough cards of the required color. Can not discover_cure."};
     }
     int i = 0;
-    for (auto[k, v] : cards) {
-        if (v) {
-            i++;
-            cards[k] = false;
-        }
+////    for (auto[k, v] : cards) {
+//    for (auto& v : cards) {
+////        if (v) {
+//            i++;
+//            cards.erase(v);
+////            cards[k] = false;
+////        }
+//        if (i == cards_to_cure) {
+//            break;
+//        }
+//    }
+    for (auto it = cards.begin(); it != cards.end();) {
+        i++;
+        cards.erase(it++);
         if (i == cards_to_cure) {
             break;
         }

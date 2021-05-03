@@ -15,16 +15,18 @@ std::string Scientist::role() const {
     return "Scientist";
 }
 
-Player & Scientist::discover_cure(pandemic::Color color) {
+Player &Scientist::discover_cure(pandemic::Color color) {
     if (curr_board.is_cure(color)) {
         return *this;
     }
-    if (!curr_board.getCities()[curr_city].get_stations()) {
+    if (!curr_board.getCities()[curr_city].get_station()) {
         throw std::runtime_error{"There is no research station in the current city. Can not discover_cure."};
     }
     int n = 0;
-    for (auto[k, v] : cards) {
-        if (curr_board.get_color(k) == color && v) {
+    for (auto &v : cards) {
+//    for (auto[k, v] : cards) {
+        if (curr_board.get_color(v) == color) {
+//        if (curr_board.get_color(k) == color && v) {
             n++;
         }
     }
@@ -32,10 +34,23 @@ Player & Scientist::discover_cure(pandemic::Color color) {
         throw std::runtime_error{"There are not enough cards of the required color. Can not discover_cure."};
     }
     int i = 0;
-    for (auto[k, v] : cards) {
-        if (curr_board.get_color(k) == color) {
+//    for (auto &v: cards) {
+////    for (auto[k, v] : cards) {
+//        if (curr_board.get_color(v) == color) {
+////        if (curr_board.get_color(k) == color) {
+//            i++;
+//            cards.erase(v);
+////            cards[k] = false;
+//        }
+//        if (i == num) {
+//            break;
+//        }
+    for (auto it = cards.begin(); it != cards.end();) {
+        if (curr_board.get_color(*it) == color) {
             i++;
-            cards[k] = false;
+            cards.erase(it++);
+        } else {
+            ++it;
         }
         if (i == num) {
             break;
