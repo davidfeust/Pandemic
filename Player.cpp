@@ -9,7 +9,6 @@ using namespace pandemic;
 Player::Player(Board &board, City city) : curr_board(board), curr_city(city) {}
 
 Player &Player::take_card(pandemic::City city) {
-//    cards[city] = true;
     cards.insert(city);
     return *this;
 }
@@ -18,10 +17,8 @@ Player &Player::build() {
     if (curr_board.getCities()[curr_city].get_station()) {
         return *this;
     }
-//    if (cards[curr_city]) {
     if (cards.contains(curr_city)) {
         cards.erase(curr_city);
-//        cards[curr_city] = false;
         curr_board.getCities()[curr_city].get_station() = true;
     } else {
         throw std::runtime_error{
@@ -40,10 +37,8 @@ Player &Player::drive(City city) {
 }
 
 Player &Player::fly_direct(City city) {
-//    if (cards[city]) {
     if (cards.contains(city)) {
         cards.erase(city);
-//        cards[city] = false;
         curr_city = city;
     } else {
         throw std::runtime_error{"The player does not have " + enum_str[city] + " card. Can not fly_direct."};
@@ -71,7 +66,6 @@ Player &Player::treat(City city) {
 Player &Player::fly_charter(City city) {
     if (cards.contains(curr_city)) {
         cards.erase(curr_city);
-//        cards[curr_city] = false;
         curr_city = city;
     } else {
         throw std::runtime_error{
@@ -110,9 +104,7 @@ Player &Player::discover_cure(pandemic::Color color) {
     }
     int n = 0;
     for (auto &i : cards) {
-//    for (auto&[k, v] : cards) {
         if (curr_board.get_color(i) == color) {
-//        if (curr_board.getCities()[k].get_color() == color && v) {
             n++;
         }
     }
@@ -121,13 +113,11 @@ Player &Player::discover_cure(pandemic::Color color) {
         throw std::runtime_error{"There are not enough cards of the required color. Can not discover_cure."};
     }
     int i = 0;
-    for (auto it = cards.begin(); it != cards.end(); ) {
+    for (auto it = cards.begin(); it != cards.end();) {
 
-//    for (auto[k, v] : cards) {
         if (curr_board.get_color(*it) == color) {
             i++;
             cards.erase(it++);
-//            cards[k] = false;
         } else {
             ++it;
         }
@@ -138,14 +128,4 @@ Player &Player::discover_cure(pandemic::Color color) {
     curr_board.is_cure(color) = true;
     return *this;
 }
-
-
-//std::string Player::role() const{
-////    return std::type_info::name();
-////    metaObject()->className();
-//    return typeid(*this).name();
-//
-////    return ;
-//}
-
 
