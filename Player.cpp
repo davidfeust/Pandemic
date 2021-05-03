@@ -13,11 +13,12 @@ Player &Player::take_card(pandemic::City city) {
     return *this;
 }
 
-void Player::build() {
+Player & Player::build() {
     if (cards[curr_city]) {
         cards[curr_city] = false;
         curr_board.getCities()[curr_city].get_stations() = true;
     }
+    return *this;
 }
 
 Player &Player::drive(City city) {
@@ -60,20 +61,37 @@ Player &Player::fly_charter(City city) {
     if (cards[curr_city]) {
         cards[curr_city] = false;
         curr_city = city;
+    } else {
+        throw std::runtime_error{
+                "The player does not have " + enum_str[city] + " card (current city). Can not fly_charter."};
     }
     return *this;
 }
 
-void Player::fly_shuttle(City city) {
-    if (curr_board.getCities()[curr_city].get_stations()
-        && curr_board.getCities()[city].get_stations()) {
+Player & Player::fly_shuttle(City city) {
+    bool &station_curr = curr_board.getCities()[curr_city].get_stations();
+    bool &station_oth = curr_board.getCities()[city].get_stations();
+    if (!station_curr && !station_oth) {
+        throw std::runtime_error{
+                "There is no research station in the current city (" + enum_str[curr_city] + ") and in " +
+                enum_str[city] + ". Can not fly_shuttle."};
+    }
+    if (!station_curr) {
+        throw std::runtime_error{
+                "There is no research station in the current city(" + enum_str[curr_city] + "). Can not fly_shuttle."};
+    }
+    if (!station_oth) {
+        throw std::runtime_error{
+                "There is no research station in " + enum_str[curr_city] + ". Can not fly_shuttle."};
+    } else {
         curr_city = city;
     }
+    return *this;
 }
 
-void Player::discover_cure(pandemic::Color color) {
+Player & Player::discover_cure(pandemic::Color color) {
     if (curr_board.is_cure(color)) {
-        return;
+        return *this;
     }
     if (!curr_board.getCities()[curr_city].get_stations()) {
         throw std::runtime_error{"There is no research station in the current city. Can not discover_cure."};
@@ -99,6 +117,7 @@ void Player::discover_cure(pandemic::Color color) {
         }
     }
     curr_board.is_cure(color) = true;
+    return *this;
 }
 
 

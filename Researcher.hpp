@@ -14,6 +14,6 @@ namespace pandemic {
 
         std::string role() const override;
 
-        void discover_cure(pandemic::Color color) override;
+        Player & discover_cure(pandemic::Color color) override;
     };
 }

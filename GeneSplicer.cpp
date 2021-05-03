@@ -14,9 +14,9 @@ std::string GeneSplicer::role() const {
     return "GeneSplicer";
 }
 
-void GeneSplicer::discover_cure(pandemic::Color color) {
+Player & GeneSplicer::discover_cure(pandemic::Color color) {
     if (curr_board.is_cure(color)) {
-        return;
+        return *this;
     }
     if (!curr_board.getCities()[curr_city].get_stations()) {
         throw std::runtime_error{"There is no research station in the current city. Can not discover_cure."};
@@ -42,4 +42,5 @@ void GeneSplicer::discover_cure(pandemic::Color color) {
         }
     }
     curr_board.is_cure(color) = true;
+    return *this;
 }

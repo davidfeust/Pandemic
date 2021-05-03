@@ -55,7 +55,7 @@ namespace pandemic {
         * @throw exception if in the current city or in the giving city there is no research station.
         * @param city
         */
-        virtual void fly_shuttle(pandemic::City city);
+        virtual Player &fly_shuttle(pandemic::City city);
 
         /**
          * Build a research station in the current city.
@@ -64,7 +64,7 @@ namespace pandemic {
          * @throw exception if the player doesn't have the card of the current city,
          * or if there is already a research station in the city.
          */
-        virtual void build();
+        virtual Player &build();
 
         /**
         * Discovering a cure for a disease of a certain color.
@@ -72,7 +72,7 @@ namespace pandemic {
         * and discard 5 colored cards of the disease.
         * @throw exception if the player doesn't have enough cards of the required color.
         */
-        virtual void discover_cure(pandemic::Color color);
+        virtual Player &discover_cure(pandemic::Color color);
 
         /**
         * Reduction of one disease cube from the current city.
@@ -99,6 +99,5 @@ namespace pandemic {
          * @return this player reference
          */
         Player &take_card(pandemic::City city);
-
     };
 }

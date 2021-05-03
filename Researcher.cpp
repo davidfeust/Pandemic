@@ -14,9 +14,9 @@ std::string Researcher::role() const {
     return "Researcher";
 }
 
-void Researcher::discover_cure(pandemic::Color color) {
+Player & Researcher::discover_cure(pandemic::Color color) {
     if (curr_board.is_cure(color)) {
-        return;
+        return *this;
     }
     int n = 0;
     for (auto[k, v] : cards) {
@@ -39,5 +39,5 @@ void Researcher::discover_cure(pandemic::Color color) {
         }
     }
     curr_board.is_cure(color) = true;
-
+    return *this;
 }

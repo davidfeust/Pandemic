@@ -8,8 +8,9 @@ using namespace pandemic;
 
 OperationsExpert::OperationsExpert(Board &board, City city) : Player(board, city) {}
 
-void OperationsExpert::build() {
+Player & OperationsExpert::build() {
     Player::curr_board.getCities()[Player::curr_city].get_stations() = true;
+    return *this;
 }
 
 std::string OperationsExpert::role() const {

@@ -23,7 +23,7 @@ namespace pandemic {
 
         Medic &fly_charter(pandemic::City city) override;
 
-        void fly_shuttle(pandemic::City city) override;
+        Player & fly_shuttle(pandemic::City city) override;
 
 
     private:

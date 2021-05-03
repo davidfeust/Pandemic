@@ -197,3 +197,10 @@ std::map<City, std::vector<City>> Board::graph = {
         {City::Tokyo,         {City::Seoul,        City::Shanghai,     City::Osaka,         City::SanFrancisco}},
         {City::Washington,    {City::Atlanta,      City::NewYork,      City::Montreal,      City::Miami}}
 };
+
+void Board::remove_cures() {
+    cure_black = false;
+    cure_blue = false;
+    cure_yellow = false;
+    cure_red = false;
+}

@@ -14,6 +14,6 @@ namespace pandemic {
 
         std::string role() const override;
 
-        void build() override;
+        Player & build() override;
     };
 }

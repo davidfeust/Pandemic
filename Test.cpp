@@ -43,27 +43,27 @@ TEST_CASE ("Discover Cure") {
 
 }
 
-TEST_CASE ("from demo") {
-    cout << boolalpha;
-    Board board;
-
-    OperationsExpert builder{board, City::Atlanta};
-    builder.build();  // Build a research station in Atlanta, to prepare the board for the tests.
-
-    cout << board << endl;
-
-    FieldDoctor player(board, City::Washington);
-    player.take_card(City::Sydney)
-            .take_card(City::HoChiMinhCity)
-            .take_card(City::HongKong)
-            .take_card(City::Bangkok)
-            .take_card(City::Beijing);
-    player.drive(City::Atlanta);
-
-    player.discover_cure(Color::Red);
-
-    cout << board << endl;
-}
+//TEST_CASE ("from demo") {
+//    cout << boolalpha;
+//    Board board;
+//
+//    OperationsExpert builder{board, City::Atlanta};
+//    builder.build();  // Build a research station in Atlanta, to prepare the board for the tests.
+//
+////    cout << board << endl;
+//
+//    FieldDoctor player(board, City::Washington);
+//    player.take_card(City::Sydney)
+//            .take_card(City::HoChiMinhCity)
+//            .take_card(City::HongKong)
+//            .take_card(City::Bangkok)
+//            .take_card(City::Beijing);
+//    player.drive(City::Atlanta);
+//
+//    player.discover_cure(Color::Red);
+//
+////    cout << board << endl;
+//}
 
 TEST_CASE ("board [] operator") {
     Board board;
@@ -94,13 +94,13 @@ TEST_CASE ("is_clean") {
 TEST_CASE ("Drives") {
     Board board;
     City curr_city = random_city();
-    array<Player *, 8> arr = {new OperationsExpert{board, curr_city}, new Dispatcher{board, curr_city},
-                              new Scientist{board, curr_city, 3}, new Researcher{board, curr_city},
-                              new Medic{board, curr_city}, new Virologist{board, curr_city},
-                              new GeneSplicer{board, curr_city}, new FieldDoctor{board, curr_city}};
+    array<Player *, 8> roles = {new OperationsExpert{board, curr_city}, new Dispatcher{board, curr_city},
+                                new Scientist{board, curr_city, 3}, new Researcher{board, curr_city},
+                                new Medic{board, curr_city}, new Virologist{board, curr_city},
+                                new GeneSplicer{board, curr_city}, new FieldDoctor{board, curr_city}};
 
             SUBCASE("drive") {
-        for (Player *player: arr) {
+        for (Player *player: roles) {
             curr_city = random_city();
             player->take_card(curr_city).fly_direct(curr_city);
             for (int i = 0; i < 50; ++i) {
@@ -119,26 +119,63 @@ TEST_CASE ("Drives") {
     }
 
             SUBCASE("fly_direct") {
-//        for (Player *player: arr) {
-        for (size_t j = 0; j < 8; ++j) {
-            Player *player = arr[j];
+        for (Player *player: roles) {
             for (int i = 0; i < 50; ++i) {
                 City rand_city = random_city();
-                if (rand_city == curr_city) {
-                    break;
-                }
-                bool is_success = false;
+                bool is_success;
                 try {
                     player->fly_direct(rand_city);
                     is_success = true;
                 } catch (const exception &ex) {
-//                    AssERT
+                    is_success = false;
                 }
-//                if (is_success) {
-//
-//                }
-                player->take_card(rand_city).fly_direct(rand_city);
                         CHECK_EQ (is_success, false);
+                try {
+                    player->take_card(rand_city).fly_direct(rand_city);
+                    is_success = true;
+                } catch (const exception &ex) {
+                    is_success = false;
+                }
+                        CHECK_EQ (is_success, true);
+            }
+        }
+    }
+            SUBCASE("fly_charter") {
+        for (Player *player: roles) {
+            for (int i = 0; i < 50; ++i) {
+                City start_city = random_city();
+                City rand_city = random_city();
+                if (start_city == rand_city) {
+                    break;
+                }
+                player->take_card(start_city).fly_direct(start_city);
+                        CHECK_THROWS(player->fly_charter(rand_city));
+                player->take_card(start_city);
+                        CHECK_NOTHROW(player->fly_charter(rand_city));
+            }
+        }
+    }
+            SUBCASE("fly_shuttle") {
+        for (Player *player: roles) {
+            for (int i = 0; i < 5; ++i) {
+                City start_city = random_city();
+                City rand_city = random_city();
+                if (start_city == rand_city) {
+                    break;
+                }
+                player->take_card(start_city).fly_direct(start_city); // move to start_city
+                if (!board.getCities()[start_city].get_stations() || !board.getCities()[rand_city].get_stations()) {
+                            CHECK_THROWS(player->fly_shuttle(rand_city));
+                }
+                OperationsExpert ox{board, rand_city};
+                ox.build();
+                if (board.getCities()[start_city].get_stations() && board.getCities()[rand_city].get_stations()) {
+                            CHECK_NOTHROW(player->fly_shuttle(rand_city));
+                }
+                ox.take_card(rand_city).fly_direct(rand_city).build();
+                if (board.getCities()[start_city].get_stations() && board.getCities()[rand_city].get_stations()) {
+                            CHECK_NOTHROW(player->fly_shuttle(rand_city));
+                }
             }
         }
     }

@@ -45,9 +45,10 @@ Medic &Medic::fly_charter(pandemic::City city) {
     return *this;
 }
 
-void Medic::fly_shuttle(pandemic::City city) {
+Player & Medic::fly_shuttle(pandemic::City city) {
     arrival();
     Player::fly_shuttle(city);
+    return *this;
 }
 
 Medic &Medic::drive(pandemic::City city) {
