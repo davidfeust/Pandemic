@@ -53,6 +53,45 @@ bool Board::is_neighbors(City city1, City city2) {
     return false;
 }
 
+Color &Board::get_color(City city) {
+    return cities[city].get_color();
+}
+
+bool &Board::is_cure(City city) {
+    return is_cure(cities[city].get_color());
+}
+
+bool &Board::is_cure(Color color) {
+    switch (color) {
+        case Color::Yellow:
+            return cure_yellow;
+        case Color::Red:
+            return cure_red;
+        case Color::Blue:
+            return cure_blue;
+        case Color::Black:
+            return cure_black;
+    }
+    return cure_black;
+}
+
+map<City, CityData> &Board::getCities() {
+    return cities;
+}
+
+void Board::remove_cures() {
+    cure_black = false;
+    cure_blue = false;
+    cure_yellow = false;
+    cure_red = false;
+}
+
+void Board::remove_stations() {
+    for (auto &[k, v] : cities) {
+        v.get_station() = false;
+    }
+}
+
 void Board::init_cities() {
     cities = {
             {City::Algiers,       CityData{City::Algiers, Color::Black}},
@@ -107,32 +146,6 @@ void Board::init_cities() {
 
 }
 
-Color &Board::get_color(City city) {
-    return cities[city].get_color();
-}
-
-bool &Board::is_cure(City city) {
-    return is_cure(cities[city].get_color());
-}
-
-bool &Board::is_cure(Color color) {
-    switch (color) {
-        case Color::Yellow:
-            return cure_yellow;
-        case Color::Red:
-            return cure_red;
-        case Color::Blue:
-            return cure_blue;
-        case Color::Black:
-            return cure_black;
-    }
-    return cure_black;
-}
-
-map<City, CityData> &Board::getCities() {
-    return cities;
-}
-
 std::map<City, std::vector<City>> Board::graph = {
         {City::Algiers,       {City::Madrid,       City::Paris,        City::Istanbul,      City::Cairo}},
         {City::Atlanta,       {City::Chicago,      City::Miami,        City::Washington}},
@@ -183,16 +196,3 @@ std::map<City, std::vector<City>> Board::graph = {
         {City::Tokyo,         {City::Seoul,        City::Shanghai,     City::Osaka,         City::SanFrancisco}},
         {City::Washington,    {City::Atlanta,      City::NewYork,      City::Montreal,      City::Miami}}
 };
-
-void Board::remove_cures() {
-    cure_black = false;
-    cure_blue = false;
-    cure_yellow = false;
-    cure_red = false;
-}
-
-void Board::remove_stations() {
-    for (auto &[k, v] : cities) {
-        v.get_station() = false;
-    }
-}
