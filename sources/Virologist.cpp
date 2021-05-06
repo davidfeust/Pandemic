@@ -26,7 +26,7 @@ Virologist &Virologist::treat(pandemic::City city) {
     if (curr_board.is_cure(city)) {
         curr_board[city] = 0;
     } else {
-        curr_board[curr_city]--;
+        curr_board[city]--;
     }
     if (city != curr_city) {
         cards.erase(city);

@@ -5,11 +5,11 @@
  * Since : 2021-04
  */
 
-#include "Board.hpp"
-#include "City.hpp"
-#include "Color.hpp"
+#include "sources/Board.hpp"
+#include "sources/City.hpp"
+#include "sources/Color.hpp"
 
-#include "OperationsExpert.hpp"
+#include "sources/OperationsExpert.hpp"
 
 using namespace pandemic;
 

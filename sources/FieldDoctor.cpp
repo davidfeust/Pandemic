@@ -26,7 +26,7 @@ Player &FieldDoctor::treat(pandemic::City city) {
     if (curr_board.is_cure(curr_board.getCities()[city].get_color())) {
         curr_board[city] = 0;
     } else {
-        curr_board[curr_city]--;
+        curr_board[city]--;
     }
     return *this;
 }

@@ -87,7 +87,8 @@ namespace pandemic {
         /**
          * Returns the role of the player.
          */
-        virtual std::string role() const = 0;
+//        virtual std::string role() const = 0;
+        virtual std::string role() const{ return ""; };
 
         /**
          * Taking some city card.

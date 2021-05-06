@@ -5,7 +5,7 @@
 #pragma once
 
 namespace pandemic {
-    enum class Color {
+    enum Color {
         Blue, Yellow, Black, Red
     };
 }

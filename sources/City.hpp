@@ -4,7 +4,7 @@
 #pragma once
 
 namespace pandemic {
-    enum class City {
+    enum City {
         Algiers,
         Atlanta,
         Baghdad,

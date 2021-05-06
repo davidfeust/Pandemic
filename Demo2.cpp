@@ -5,19 +5,19 @@
  * Since : 2021-04
  */
 
-#include "Board.hpp"
-#include "City.hpp"
-#include "Color.hpp"
-#include "Player.hpp"
+#include "sources/Board.hpp"
+#include "sources/City.hpp"
+#include "sources/Color.hpp"
+#include "sources/Player.hpp"
 
-#include "Researcher.hpp"
-#include "Scientist.hpp"
-#include "FieldDoctor.hpp"
-#include "GeneSplicer.hpp"
-#include "OperationsExpert.hpp"
-#include "Dispatcher.hpp"
-#include "Medic.hpp"
-#include "Virologist.hpp"
+#include "sources/Researcher.hpp"
+#include "sources/Scientist.hpp"
+#include "sources/FieldDoctor.hpp"
+#include "sources/GeneSplicer.hpp"
+#include "sources/OperationsExpert.hpp"
+#include "sources/Dispatcher.hpp"
+#include "sources/Medic.hpp"
+#include "sources/Virologist.hpp"
 
 using namespace pandemic;
 

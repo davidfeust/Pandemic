@@ -4,15 +4,15 @@
 
 #include <iostream>
 
-#include "Board.hpp"
-#include "Dispatcher.hpp"
-#include "FieldDoctor.hpp"
-#include "GeneSplicer.hpp"
-#include "Medic.hpp"
-#include "OperationsExpert.hpp"
-#include "Researcher.hpp"
-#include "Scientist.hpp"
-#include "Virologist.hpp"
+#include "sources/Board.hpp"
+#include "sources/Dispatcher.hpp"
+#include "sources/FieldDoctor.hpp"
+#include "sources/GeneSplicer.hpp"
+#include "sources/Medic.hpp"
+#include "sources/OperationsExpert.hpp"
+#include "sources/Researcher.hpp"
+#include "sources/Scientist.hpp"
+#include "sources/Virologist.hpp"
 #include "doctest.h"
 
 using namespace pandemic;
