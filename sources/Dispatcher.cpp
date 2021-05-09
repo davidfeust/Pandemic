@@ -15,6 +15,10 @@ std::string Dispatcher::role() const {
 }
 
 Dispatcher &Dispatcher::fly_direct(pandemic::City city) {
+    if (curr_city == city) {
+        throw std::runtime_error{
+                "Can not drive from city to it self. Can not fly_direct."};
+    }
     if (curr_board.getCities()[curr_city].get_station()) {
         curr_city = city;
     } else if (cards.contains(city)) {
